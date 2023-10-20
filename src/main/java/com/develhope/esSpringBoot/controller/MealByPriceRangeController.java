@@ -1,7 +1,7 @@
-package com.develhope.esSpringBoot;
+package com.develhope.esSpringBoot.controller;
 
+import com.develhope.esSpringBoot.entity.Meal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 

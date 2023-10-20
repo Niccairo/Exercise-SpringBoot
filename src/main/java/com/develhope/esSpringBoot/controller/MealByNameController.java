@@ -1,12 +1,15 @@
-package com.develhope.esSpringBoot;
+package com.develhope.esSpringBoot.controller;
 
+import com.develhope.esSpringBoot.entity.Meal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class MealByDescription {
+@RestController
+public class MealByNameController {
     private List<Meal> chefSpecials = Arrays.asList(
             new Meal("Chicken Tikka Masala", "Chicken tikka masala is made with chicken pieces marinated in spices and yogurt immersed in a tasty creamy orange sauce.", 10.5),
             new Meal("Chicken and Dumplings", "Chicken and dumplings is a chicken dish to which vegetables and pasta may be added and is prepared by mixing flour, water, milk, buttermilk and sometimes butter or other edible fats, some chicken broth and/or spices.", 10.5),
@@ -16,27 +19,14 @@ public class MealByDescription {
             new Meal("Chicken Cordon Bleu", "Cordon bleu is a fillet stuffed with cooked ham and melted cheese, which is breaded and then fried or baked.", 10.5),
             new Meal("Chicken Noodle Soup", "The base is a chicken broth to which garden vegetables, pasta and boiled chicken are added. Traditionally tortellini are used", 10.5)
     );
-
-    @GetMapping("/meal/description-match/{phrase}")
-    public Meal getBy(@PathVariable String phrase) {
+    @GetMapping("/meal/{name}")
+    public Meal getByName(@PathVariable String name) {
         Meal meal1 = new Meal();
         for (Meal meal : chefSpecials) {
-            if (meal.getDescription().contains(phrase)) {
+            if (meal.getName().equals(name)) {
                 meal1 = meal;
             }
         }
         return meal1;
     }
-
-// RESPONSE ENTITY Quale versione è più corretta??
-
-//    @GetMapping("/meal/description-match/{phrase}")
-//    public ResponseEntity<?> getByDescription(@PathVariable String phrase) {
-//        for (Meal meal : chefSpecials) {
-//            if (meal.getDescription().contains(phrase)) {
-//                return ResponseEntity.ok(meal);
-//            }
-//        }
-//        return ResponseEntity.badRequest().body("Non ci sono pasti con questa descrizione");
-//    }
 }
