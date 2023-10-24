@@ -77,4 +77,16 @@ public class Ingredient {
     public void setLactoseFree(boolean lactoseFree) {
         isLactoseFree = lactoseFree;
     }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isVegetarian=" + isVegetarian +
+                ", isVegan=" + isVegan +
+                ", isGlutenFree=" + isGlutenFree +
+                ", isLactoseFree=" + isLactoseFree +
+                '}';
+    }
 }

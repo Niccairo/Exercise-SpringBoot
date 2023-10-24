@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-
+//PUO ANDARE BENE QUESTA LOGICA DEL TRY CATCH CHE HO USATO NEL CODICE?
 @RestController
 @RequestMapping("/ingredient")
 public class IngredientController {
@@ -25,27 +25,48 @@ public class IngredientController {
 
     @DeleteMapping("/delete-ingredient/{id}")
     public ResponseEntity deleteIngredient(@PathVariable Long id){
-        ingredientService.deleteIngredient(id);
-        return ResponseEntity.ok("Ingredient deleted");
+        try{
+            ingredientService.deleteIngredient(id);
+            return ResponseEntity.ok("Ingredient deleted!");
+        }catch(EntityNotFoundException e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/get-ingredient/{id}")
     public ResponseEntity getIngredient(@PathVariable Long id){
-        Optional<Ingredient> opt = ingredientService.getIngredient(id);
-        if(opt.isPresent()){
-            return ResponseEntity.ok("Id : " + opt.get().getId()
+        try{
+            Optional<Ingredient> opt = ingredientService.getIngredient(id);
+            return ResponseEntity.ok(opt.get().toString());  //qui ho usato il toString() per scrivere molto meno codice, qual'è la versione migliore?
+            /*       "Id : " + opt.get().getId()
                     + "\nName : " + opt.get().getName()
                     + "\nVegetarian : " + opt.get().isVegetarian()
                     + "\nVegan : " + opt.get().isVegan()
                     + "\nGluten Free : " + opt.get().isGlutenFree()
-                    + "\nLactose Free : "  + opt.get().isLactoseFree());
+                    + "\nLactose Free : "  + opt.get().isLactoseFree());      */
+        }catch (EntityNotFoundException e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.badRequest().body("No ingredient for  ID " + id);
     }
-
     @PutMapping("/update-ingredient/{id}")
     public ResponseEntity updateIngredient(@RequestBody Ingredient ingredient, @PathVariable Long id){
-        ingredientService.updateIngredient(ingredient,id);
-        return ResponseEntity.ok("Ingredient updated!");
+        try{
+            ingredientService.updateIngredient(ingredient,id);
+            return ResponseEntity.ok("Ingredient updated!");
+        }catch(EntityNotFoundException e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
